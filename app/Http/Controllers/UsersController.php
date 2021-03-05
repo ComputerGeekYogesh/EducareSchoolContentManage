@@ -2,61 +2,84 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
+use App\Models\User_role;
 use App\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
     public $successStatus = 200;
 
-    public function login(Request $req)
+    public function login(Request $request)
     {
-        //return $req;
-        if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
-            $user = Auth::user();
-            $success['token'] = $user->createToken('appToken')->accessToken;
-            return response()->json([
-              'success' => true,
-              'token' => $success,
-              'user' => $user
-          ]);
-        } else {
-          return response()->json([
-            'success' => false,
-            'message' => 'Invalid Email or Password',
-        ], 401);
+        //return $request;
+        $validator = Validator::make($request->all(), [ 
+          'email' => 'required|string', 
+          'password' => 'required|string', 
+      ]);
+      if ($validator->fails())
+      {
+          return response()->json(["status"=>"failure","code"=> 422, "message"=>'Validation errors ','errors'=>$validator->errors()->all()],422);
+      }
+        $user = User::where('email','=',$request->email)->first();
+        if($user){
+            if(Hash::check($request->password, $user->password)){
+              $userTokens = $user->tokens;
+              foreach($userTokens as $hello) {
+                  $hello->delete();
+              }
+              $token = $user->createToken('eduapp token')->accessToken;
+              $success['token'] = $token;
+              $success['user'] = $user;
+              return response()->json(["status"=>"success","code"=> 200, "message"=>'User logged in successfully ','success'=>$success],200);
+            }
+            else{
+              return response()->json(["status"=>"failure","code"=> 401, "message"=>'User password wrong '],401);
+            }
+        }
+        else{
+          return response()->json(["status"=>"failure","code"=> 401, "message"=>'User not found '],401);
         }
     }
 
     public function register(Request $request) 
     {    
-          //$validator = $request->validate( [ 
-          $validator = Validator::make($request->all(), [ 
+        $validator = Validator::make($request->all(), [ 
             'name' => 'required', 
             'email' => 'required|email|unique:users', 
-            'password' => 'required', 
+            'role_id' => 'required|string'
         ]);
-    if ($validator->fails()) { 
-            return response()->json(['error'=>$validator->errors()], 401);            
+        if ($validator->fails())
+        {
+            return response()->json(["status"=>"failure","code"=> 422, "message"=>'Validation errors ','errors'=>$validator->errors()->all()],422);
         }
-        $input = $request->all(); 
-        $input['password'] = bcrypt($input['password']); 
-        $user = User::create($input); 
-       // return $user;
-        $success['token'] =  $user->createToken('remember_token')->accessToken; 
-        $success['name'] =  $user->name;
-        return response()->json(['success'=>$success], $this-> successStatus); 
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make('password');
+        $user->isban = 1;
+        $user->save();
+
+        $user_role = new User_role();
+        $user_role->user_id = $user->id;
+        $user_role->role_id = $request->role_id;
+        $user_role->save();
+
+        $token = $user->createToken('eduapp token')->accessToken;
+        $success['token'] = $token;
+        $success['user'] = $user;
+        $success['default_password'] = 'password';
+        return response()->json(["status"=>"success","code"=> 200, "message"=>'User registered successfully ','success'=>$success],200);
    }
 
     public function logout(Request $request)
     {
-     
-     $request->user()->token()->revoke();
-     return response()->json([
-          'message' => 'Logout successfully'
-      ]);
+      $token = $request->user()->token();
+      $token->delete();
+      return response()->json(["status"=>"success","code"=> 200, "message"=>'You have been successfully logged out!'],200);
     }
   
      
