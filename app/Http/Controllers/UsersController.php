@@ -34,7 +34,7 @@ class UsersController extends Controller
               $token = $user->createToken('eduapp token')->accessToken;
               $success['token'] = $token;
               $success['user'] = $user;
-              return response()->json(["status"=>"success","code"=> 200, "message"=>'User logged in successfully ','success'=>$success],200);
+              return response()->json(["status"=>"success","code"=> 200, "message"=>'User logged in successfully ','data'=>$success],200);
             }
             else{
               return response()->json(["status"=>"failure","code"=> 401, "message"=>'User password wrong '],401);
@@ -50,16 +50,17 @@ class UsersController extends Controller
         $validator = Validator::make($request->all(), [ 
             'name' => 'required', 
             'email' => 'required|email|unique:users', 
-            'role_id' => 'required|string'
+            'role_id' => 'required|string',
+            'password'=>'required'
         ]);
         if ($validator->fails())
         {
-            return response()->json(["status"=>"failure","code"=> 422, "message"=>'Validation errors ','errors'=>$validator->errors()->all()],422);
+            return response()->json(["status"=>"failure","code"=> 201, "message"=>'Validation errors ','errors'=>$validator->errors()->all()],201);
         }
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = Hash::make('password');
+        $user->password = bcrypt($request->password);
         $user->isban = 1;
         $user->save();
 
@@ -72,7 +73,7 @@ class UsersController extends Controller
         $success['token'] = $token;
         $success['user'] = $user;
         $success['default_password'] = 'password';
-        return response()->json(["status"=>"success","code"=> 200, "message"=>'User registered successfully ','success'=>$success],200);
+        return response()->json(["status"=>"success","code"=> 200, "message"=>'User registered successfully ','data'=>$success],200);
    }
 
     public function logout(Request $request)
