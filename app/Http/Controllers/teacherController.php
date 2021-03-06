@@ -44,10 +44,10 @@ class teacherController extends Controller
                     $result = $update->save();
                     if($result)
                     {
-                        return ["success" => "Profile updated "];
+                        return ["message" => "Profile updated ","code"=>200,"data"=>$update,"status"=>"success"];
                     }
                     else{
-                        return ["success" => "Profile not updated"];
+                        return ["message" => "Profile not updated","code"=>404,"status"=>"failure"];
                     }
 
      }
