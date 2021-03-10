@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\File;
 class teacherController extends Controller
 {
      public function profile(){
-        return teacher::all();
+       // return 
+        return ["code"=>200,"data"=>teacher::all(),"status"=>"success"];
      }
 
      public function profileupdate(Request $req){
