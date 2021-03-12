@@ -2,47 +2,100 @@
 
 namespace App\Http\Controllers;
 use App\Models\teacher;
-use App\Models\video;
+use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-class teacherController extends Controller
+class TeacherController extends Controller
 {
-     public function profile(){
-       // return 
-        return ["code"=>200,"data"=>teacher::all(),"status"=>"success"];
-     }
+     public function getprofile(Request $request){
+                     $update = teacher::find($request->id)->first();
+                     return ["code"=>200,"data"=>$update,"status"=>"success"];
+                    }
 
-     public function profileupdate(Request $req){
-                    $update = teacher::find($req->id);
-                    $update->first_name = $req->first_name;
-                    $update->last_name = $req->last_name;
+     public function profileupdate(Request $request){
+                    $update = teacher::find($request->id);
 
-                   if ($req->hasfile('image'))
+                    if ($request->hasfile('image' ) && $request->image != null)
                    {
-                       $file = $req->file('image');
+                       $file = $request->file('image');
                        $filename = $file->getClientOriginalName();
                        $file->move ('uploads\teacher_pro_uploads\teacher_image',$filename);
                        $update->image= $filename;
+                       $result = $update->save();
                    }
-                   $update->date_of_birth = $req->date_of_birth;
-                   $update->mobile_no = $req->mobile_no;
-                   $update->email = $req->email;
-                   if ($req->hasfile('identity_doc'))
+
+                   elseif ($request->has('mobile_no') && $request->mobile_no != null)
                    {
-                       $file = $req->file('identity_doc');
+                    $update->mobile_no = $request->mobile_no;
+                    $result = $update->save();
+                   }
+
+                   elseif ($request->has('gender_id') && $request->gender_id != null)
+                   {
+                    $update->gender_id = $request->gender_id;
+                    $result = $update->save();
+                   }
+
+                   elseif($request->has('date_of_birth') && $request->date_of_birth != null)
+                   {
+                    $update->date_of_birth = $request->date_of_birth;
+                    $result = $update->save();
+                   }
+
+                   elseif ($request->has('current_address') && $request->current_address != null)
+                   {
+                    $update->current_address = $request->current_address;
+                    $result = $update->save();
+                   }
+
+                   elseif ($request->has('permanent_address') && $request->permanent_address != null)
+                   {
+                    $update->permanent_address = $request->permanent_address;
+                    $result = $update->save();
+
+                   }
+
+                   elseif ($request->has('father_name') && $request->father_name != null)
+                   {
+                    $update->father_name = $request->father_name;
+                    $result = $update->save();
+                   }
+
+                   elseif ($request->has('mother_name') && $request->mother_name != null)
+                   {
+                    $update->mother_name = $request->mother_name;
+                    $result = $update->save();
+                   }
+
+                   elseif ($request->has('marital_status') && $request->marital_status != null)
+                   {
+                    $update->marital_status = $request->marital_status;
+                    $result = $update->save();
+                   }
+
+                   elseif ($request->hasfile('identity_doc') )
+                   {
+                       $file = $request->file('identity_doc');
                        $filename = $file->getClientOriginalName();
                        $file->move ('uploads\teacher_pro_uploads\teacher_docs',$filename);
                        $update->identity_doc = $filename;
+                       $result = $update->save();
                    }
 
-                   if ($req->hasfile('qualification_doc'))
+                   elseif ($request->hasfile('qualification_doc'))
                    {
-                       $file = $req->file('qualification_doc');
+                       $file = $request->file('qualification_doc');
                        $filename = $file->getClientOriginalName();
                        $file->move ('uploads\teacher_pro_uploads\teacher_docs',$filename);
                        $update->qualification_doc = $filename;
+                       $result = $update->save();
                    }
-                    $result = $update->save();
+
+                   else
+                   {
+                    return ["message" => "Enter Field does not exist","code"=>404,"status"=>"failure"];
+                   }
+
                     if($result)
                     {
                         return ["message" => "Profile updated ","code"=>200,"data"=>$update,"status"=>"success"];
@@ -53,57 +106,34 @@ class teacherController extends Controller
 
      }
 
-        public function videoupload(Request $req){
-                    $upload = new video;
-                    $upload->id = $req->id;
-                    $upload->topic_id = $req->topic_id;
-                    $upload->user_id = $req->user_id;
+        public function videoupload(Request $request){
+                    $upload = new Video;
+                    $upload->id = $request->id;
+                    $upload->topic_id = $request->topic_id;
+                    $upload->teacher_id = $request->teacher_id;
 
-                    //  $result = $req->file('file')->store('uploads\content_uploads\image_notes');
-                    // return ['result' =>$result];
-
-                    // if ($req ->hasfile('image_notes'))
-                    // {
-                    //     $destination = 'uploads\content_uploads\image_notes'.$upload->image_notes;
-                    // }
-
-
-                    if ($req->hasfile('image_notes'))
+                    if ($request->hasfile('image_notes'))
                     {
-                    // {
-                    //     $destination = 'uploads\content_uploads\image_notes'.$upload->image_notes;
-                    //     if (File::exists($destination)){
-                    //         File::delete($destination);
-                    //     }
-                        $file = $req->file('image_notes');
-                        $extension = $file->getClientOriginalExtension();
-                        $filename = time() . '.'. $extension;
-
+                        $file = $request->file('image_notes');
+                        $filename = $file->getClientOriginalName();
                         $file->move ('uploads\content_uploads\image_notes',$filename);
                         $upload->image_notes = $filename;
                     }
-
-                    // $filename = "test.jpg";
-                    // if ($req ->hasfile('image_notes'))
-                    // {
-                    // $path = $req->file('image_notes')->move('uploads\content_uploads\image_notes',$filename);
-                    // $upload->image_notes = $filename;
                     // //$photoURL = url('/',$filename);
 
-                    if ($req->hasfile('video_notes'))
+                    if ($request->hasfile('video_notes'))
                     {
-                        $file = $req->file('video_notes');
-                        $extension = $file->getClientOriginalExtension();
-                        $filename = time() . '.'. $extension;
+                        $file = $request->file('video_notes');
+                        $filename = $file->getClientOriginalName();
+
                         $file->move ('uploads\content_uploads\video_notes',$filename);
                         $upload->video_notes = $filename;
                     }
 
-                    if ($req->hasfile('video_url'))
+                    if ($request->hasfile('video_url'))
                     {
-                        $file = $req->file('video_url');
-                        $extension = $file->getClientOriginalExtension();
-                        $filename = time() . '.'. $extension;
+                        $file = $request->file('video_url');
+                        $filename = $file->getClientOriginalName();
                         $file->move ('uploads\content_uploads\video_url',$filename);
                         $upload->video_url = $filename;
                     }
@@ -111,14 +141,11 @@ class teacherController extends Controller
                     $result=$upload->save();
                     if($result)
                     {
-                        return ["Result" => "Content uploaded successfully"];
+                        return ["message" => "Content uploaded","code"=>200,"data"=>$upload,"status"=>"success"];
                     }
-                    else
-                    {
-                        return ["Result" => "Error while uploading video"];
+                    else{
+                        return ["message" => "Content not uploaded","code"=>404,"status"=>"failure"];
                     }
-
-
 
      }
 }
