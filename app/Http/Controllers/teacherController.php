@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 use App\Models\teacher;
 use App\Models\Video;
+use App\Models\Classes;
+use App\Models\ClassTeacher;
+use App\Models\ClassSubject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 class TeacherController extends Controller
 {
@@ -108,7 +112,6 @@ class TeacherController extends Controller
 
         public function videoupload(Request $request){
                     $upload = new Video;
-                    $upload->id = $request->id;
                     $upload->topic_id = $request->topic_id;
                     $upload->teacher_id = $request->teacher_id;
 
@@ -116,26 +119,24 @@ class TeacherController extends Controller
                     {
                         $file = $request->file('image_notes');
                         $filename = $file->getClientOriginalName();
-                        $file->move ('uploads\content_uploads\image_notes',$filename);
-                        $upload->image_notes = $filename;
+                        $file->move('uploads\content_uploads\image_notes',$filename);
+                        $upload->image_notes = url('uploads\content_uploads\image_notes',$filename);
                     }
-                    // //$photoURL = url('/',$filename);
 
                     if ($request->hasfile('video_notes'))
                     {
                         $file = $request->file('video_notes');
                         $filename = $file->getClientOriginalName();
-
-                        $file->move ('uploads\content_uploads\video_notes',$filename);
-                        $upload->video_notes = $filename;
+                        $file->move('uploads\content_uploads\video_notes',$filename);
+                        $upload->video_notes = url('uploads\content_uploads\video_notes',$filename);
                     }
 
                     if ($request->hasfile('video_url'))
                     {
                         $file = $request->file('video_url');
                         $filename = $file->getClientOriginalName();
-                        $file->move ('uploads\content_uploads\video_url',$filename);
-                        $upload->video_url = $filename;
+                        $file->move('uploads\content_uploads\video_url',$filename);
+                        $upload->video_url = url('uploads\content_uploads\video_url',$filename);
                     }
 
                     $result=$upload->save();
@@ -148,5 +149,29 @@ class TeacherController extends Controller
                     }
 
      }
+
+          
+
+
+        // public function subassign(Request $request)
+        // {
+        //             $clsassign = new ClassTeacher;
+        //             $clsassign->class_id = $request->class_id;
+        //             $clsassign->teacher_id = $request->teacher_id;
+        //             $clsassign->save();
+
+        //             $subassign = new ClassSubject;
+        //             $subassign->class_id = $request->class_id;
+        //             $subassign->subject_id = $request->subject_id;
+        //             $result = $subassign->save();
+        //             if($result)
+        //             {
+        //                 return ["message" => "Subject assigned","code"=>200,"data"=>$subassign,"status"=>"success"];
+        //             }
+        //             else{
+        //                 return ["message" => "subject not assigned","code"=>404,"status"=>"failure"];
+        //             }
+
+        // }
 }
 

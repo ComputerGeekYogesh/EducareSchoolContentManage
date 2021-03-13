@@ -17,8 +17,8 @@ class CreateClassSubjectsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('class_id')->unsigned();
             $table->unsignedBigInteger('subject_id')->unsigned();
-            $table->foreign('class_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('subject_id')->references('id')->on('roles')->onDelete('cascade');
+            $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
+            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
             $table->timestamps();
         });
     }

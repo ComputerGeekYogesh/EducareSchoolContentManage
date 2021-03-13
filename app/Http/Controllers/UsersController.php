@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
+use App\Models\ROleUser;
 use App\Models\User_role;
 use App\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Auth;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -16,9 +17,9 @@ class UsersController extends Controller
     public function login(Request $request)
     {
         //return $request;
-        $validator = Validator::make($request->all(), [ 
-          'email' => 'required|string', 
-          'password' => 'required|string', 
+        $validator = Validator::make($request->all(), [
+          'email' => 'required|string',
+          'password' => 'required|string',
       ]);
       if ($validator->fails())
       {
@@ -45,11 +46,11 @@ class UsersController extends Controller
         }
     }
 
-    public function register(Request $request) 
-    {    
-        $validator = Validator::make($request->all(), [ 
-            'name' => 'required', 
-            'email' => 'required|email|unique:users', 
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
             'role_id' => 'required|string',
             'password'=>'required'
         ]);
@@ -61,10 +62,9 @@ class UsersController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
-        $user->isban = 1;
         $user->save();
 
-        $user_role = new User_role();
+        $user_role = new RoleUser ();
         $user_role->user_id = $user->id;
         $user_role->role_id = $request->role_id;
         $user_role->save();
@@ -82,10 +82,10 @@ class UsersController extends Controller
       $token->delete();
       return response()->json(["status"=>"success","code"=> 200, "message"=>'You have been successfully logged out!'],200);
     }
-  
-     
-     
-     
+
+
+
+
 }
 
 
