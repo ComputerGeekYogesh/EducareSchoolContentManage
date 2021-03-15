@@ -114,8 +114,7 @@ class TeacherController extends Controller
                     $upload = new Video;
                     $upload->topic_id = $request->topic_id;
                     $upload->teacher_id = $request->teacher_id;
-                    return
-                ($upload);
+                    return($upload);
                     // if ($request->hasfile('image_notes'))
                     // {
                     //     $file = $request->file('image_notes');
