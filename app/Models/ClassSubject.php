@@ -13,4 +13,5 @@ class ClassSubject extends Model
         'class_id',
         'subject_id'
     ];
+    
 }
