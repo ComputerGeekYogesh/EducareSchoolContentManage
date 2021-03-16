@@ -16,7 +16,7 @@ class StudentController extends Controller
     public function class()
     {
      $class = Classes::all('id','class');
-     return ["code"=>200," class"=>$class,"status"=>"success"];
+     return ["code"=>200," class"=>$class,"status"=>"success"]; 
     }
 
     public function subject()
