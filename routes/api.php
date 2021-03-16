@@ -27,7 +27,7 @@ Route::post('logout', 'App\Http\Controllers\UsersController@logout')->middleware
 //* Teacher Controller Route
 Route::get('getprofile','App\Http\Controllers\TeacherController@getprofile');
 Route::post('profileupdate','App\Http\Controllers\TeacherController@profileupdate');
-Route::post('videoupload','App\Http\Controllers\TeacherController@videoupload');
+Route::post('content','App\Http\Controllers\TeacherController@content');
 
 //* Student Controller Route
 Route::get('class','App\Http\Controllers\StudentController@class');

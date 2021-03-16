@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\teacher;
-use App\Models\Video;
+use App\Models\Content;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Classes;
 use App\Models\ClassTeacher;
@@ -133,35 +133,66 @@ class TeacherController extends Controller
 
      }
 
-        public function videoupload(Request $request){
-                    $upload = new Video;
-                    $upload->topic_id = $request->topic_id;
-                    $upload->teacher_id = $request->teacher_id;
+        public function content(Request $request){
+                    $upload = new Content();
+
                     if ($request->hasfile('image_notes'))
                     {
                         $file = $request->file('image_notes');
                         $filename = $file->getClientOriginalName();
-                        $file->move('uploads\content_uploads\image_notes',$filename);
-                        $upload->image_notes = url('uploads\content_uploads\image_notes',$filename);
+                        $extension = $file->getClientOriginalExtension();
+                        if( $extension == "jpg" || $extension == "jpeg" || $extension == "png")
+                        {
+                            $file->move('uploads\content_uploads\image_notes',$filename);
+                            $upload->image_notes = url('uploads\content_uploads\image_notes',$filename);
+                            $result = $upload->save();
+                        }
+                        else
+                        {
+                             return response()->json(["status"=>"failure","code"=> 422,"message"=> "image notes must be in .jpg, .jpeg, .png format"]);
+                        }
+
                     }
 
                     if ($request->hasfile('video_notes'))
                     {
                         $file = $request->file('video_notes');
                         $filename = $file->getClientOriginalName();
-                        $file->move('uploads\content_uploads\video_notes',$filename);
-                        $upload->video_notes = url('uploads\content_uploads\video_notes',$filename);
+                        $extension = $file->getClientOriginalExtension();
+                        if($extension == "pdf")
+                        {
+                            $file->move('uploads\content_uploads\video_notes',$filename);
+                            $upload->video_notes = url('uploads\content_uploads\video_notes',$filename);
+                            $result = $upload->save();
+                        }
+                        else
+                        {
+                             return response()->json(["status"=>"failure","code"=> 422,"message"=> "video notes must be in .pdf format"]);
+                        }
+
                     }
 
                     if ($request->hasfile('video_url'))
                     {
                         $file = $request->file('video_url');
                         $filename = $file->getClientOriginalName();
-                        $file->move('uploads\content_uploads\video_url',$filename);
-                        $upload->video_url = url('uploads\content_uploads\video_url',$filename);
-                    }
+                        $extension = $file->getClientOriginalExtension();
+                        if($extension == "mp4")
+                        {
+                            $file->move('uploads\content_uploads\video_url',$filename);
+                            $upload->video_url = url('uploads\content_uploads\video_url',$filename);
+                            $result = $upload->save();
+                        }
+                        else
+                        {
+                             return response()->json(["status"=>"failure","code"=> 422,"message"=> "video must be in .mp4 format"]);
+                        }
 
-                    $result=$upload->save();
+                    }
+                    $upload->topic_id = $request->topic_id;
+                    $upload->teacher_id = $request->teacher_id;
+                    $result = $upload->save();
+                    
                     if($result)
                     {
                         return ["message" => "Content uploaded","code"=>200,"data"=>$upload,"status"=>"success"];
