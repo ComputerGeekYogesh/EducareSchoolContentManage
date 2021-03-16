@@ -25,9 +25,9 @@ Route::post('register', 'App\Http\Controllers\UsersController@register');
 Route::post('logout', 'App\Http\Controllers\UsersController@logout')->middleware('auth:api');
 
 //* Teacher Controller Route
-Route::get('getprofile','App\Http\Controllers\TeacherController@getprofile');
-Route::post('profileupdate','App\Http\Controllers\TeacherController@profileupdate');
-Route::post('videoupload','App\Http\Controllers\TeacherController@videoupload');
+Route::get('getprofile','App\Http\Controllers\teacherController@getprofile');
+Route::post('profileupdate','App\Http\Controllers\teacherController@profileupdate');
+Route::post('videoupload','App\Http\Controllers\teacherController@videoupload');
 
 //* Student Controller Route
 Route::get('class','App\Http\Controllers\StudentController@class');
