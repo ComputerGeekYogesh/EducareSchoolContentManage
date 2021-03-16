@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTopicsTable extends Migration
+class CreateChatsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateTopicsTable extends Migration
      */
     public function up()
     {
-        Schema::create('topics', function (Blueprint $table) {
+        Schema::create('chats', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('chapter_id')->unsigned();
-            $table->foreign('chapter_id')->references('id')->on('chapters')->onDelete('cascade');
-            $table->string('topic_name');
-
+            $table->integer('receiver_id');
+            $table->integer('sender_id');
+            $table->string('message');
+            $table->string('sender_role');
+            $table->string('receiver_role');
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateTopicsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('topics');
+        Schema::dropIfExists('chats');
     }
 }
