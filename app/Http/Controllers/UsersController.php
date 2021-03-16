@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
-use App\Models\ROleUser;
+use App\Models\RoleUser;
 use App\Models\User_role;
 use App\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +16,7 @@ class UsersController extends Controller
 
     public function login(Request $request)
     {
-       
+
         $validator = Validator::make($request->all(), [
           'email' => 'required|string',
           'password' => 'required|string',
