@@ -10,7 +10,7 @@ use App\Models\ClassSubject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-class TeacherController extends Controller
+class teacherController extends Controller
 {
      public function getprofile(){
                      $getprofile = teacher::all();
@@ -192,7 +192,7 @@ class TeacherController extends Controller
                     $upload->topic_id = $request->topic_id;
                     $upload->teacher_id = $request->teacher_id;
                     $result = $upload->save();
-                    
+
                     if($result)
                     {
                         return ["message" => "Content uploaded","code"=>200,"data"=>$upload,"status"=>"success"];
