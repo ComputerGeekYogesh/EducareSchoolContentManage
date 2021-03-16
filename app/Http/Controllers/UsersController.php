@@ -16,7 +16,7 @@ class UsersController extends Controller
 
     public function login(Request $request)
     {
-        //return $request;
+       
         $validator = Validator::make($request->all(), [
           'email' => 'required|string',
           'password' => 'required|string',

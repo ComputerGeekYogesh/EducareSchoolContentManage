@@ -25,7 +25,7 @@ Route::post('register', 'App\Http\Controllers\UsersController@register');
 Route::post('logout', 'App\Http\Controllers\UsersController@logout')->middleware('auth:api');
 
 //* Teacher Controller Route
-Route::post('getprofile','App\Http\Controllers\TeacherController@getprofile');
+Route::get('getprofile','App\Http\Controllers\TeacherController@getprofile');
 Route::post('profileupdate','App\Http\Controllers\TeacherController@profileupdate');
 Route::post('videoupload','App\Http\Controllers\TeacherController@videoupload');
 
