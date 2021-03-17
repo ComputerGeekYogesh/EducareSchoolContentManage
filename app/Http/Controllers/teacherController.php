@@ -10,7 +10,7 @@ use App\Models\ClassSubject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-class teacherController extends Controller
+class TeacherController extends Controller
 {
      public function getprofile(){
                      $getprofile = teacher::all();
