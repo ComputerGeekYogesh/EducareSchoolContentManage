@@ -203,28 +203,5 @@ class TeacherController extends Controller
 
      }
 
-
-
-
-        // public function subassign(Request $request)
-        // {
-        //             $clsassign = new ClassTeacher;
-        //             $clsassign->class_id = $request->class_id;
-        //             $clsassign->teacher_id = $request->teacher_id;
-        //             $clsassign->save();
-
-        //             $subassign = new ClassSubject;
-        //             $subassign->class_id = $request->class_id;
-        //             $subassign->subject_id = $request->subject_id;
-        //             $result = $subassign->save();
-        //             if($result)
-        //             {
-        //                 return ["message" => "Subject assigned","code"=>200,"data"=>$subassign,"status"=>"success"];
-        //             }
-        //             else{
-        //                 return ["message" => "subject not assigned","code"=>404,"status"=>"failure"];
-        //             }
-
-        // }
 }
 
