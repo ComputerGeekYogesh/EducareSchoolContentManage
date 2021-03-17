@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
-use App\Http\Controllers\teacherController;
+use App\Http\Controllers\TeacherController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -27,7 +27,7 @@ Route::post('logout', 'App\Http\Controllers\UsersController@logout')->middleware
 //* Teacher Controller Route
 Route::get('getprofile','App\Http\Controllers\teacherController@getprofile');
 Route::post('profileupdate','App\Http\Controllers\teacherController@profileupdate');
-Route::post('videoupload','App\Http\Controllers\teacherController@videoupload');
+Route::post('content','App\Http\Controllers\teacherController@content');
 
 //* Student Controller Route
 Route::get('class','App\Http\Controllers\StudentController@class');
