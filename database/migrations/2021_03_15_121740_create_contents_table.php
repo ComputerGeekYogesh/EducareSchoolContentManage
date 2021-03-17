@@ -15,13 +15,13 @@ class CreateContentsTable extends Migration
     {
         Schema::create('contents', function (Blueprint $table) {
             $table->id();
+            $table->string('image_notes')->nullable();
+            $table->string('video_notes')->nullable();
+            $table->string('video_url');
             $table->bigInteger('topic_id')->unsigned();
             $table->foreign('topic_id')->references('id')->on('topics')->onDelete('cascade');
             $table->bigInteger('teacher_id')->unsigned();
             $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
-            $table->string('image_notes')->nullable();
-            $table->string('video_notes')->nullable();
-            $table->string('video_url');
             $table->timestamps();
         });
     }
