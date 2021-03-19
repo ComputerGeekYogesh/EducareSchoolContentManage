@@ -137,15 +137,17 @@ public function profileupdate(Request $request){
 public function content(Request $request){
        $upload = new Content();
 
-       if ($request->hasfile('image_notes'))      
+       if ($request->hasfile('image_notes'))
        {
            $file = $request->file('image_notes');
            $filename = $file->getClientOriginalName();
            $extension = $file->getClientOriginalExtension();
            if( $extension == "jpg" || $extension == "jpeg" || $extension == "png")
            {
-               $file->move('uploads\content_uploads\image_notes',$filename);
+               //$file->move('uploads\content_uploads\image_notes',$filename);
+               $file->storeAs("public/",$filename);
                $upload->image_notes = $filename;
+
               // $upload->image_notes = url('uploads\content_uploads\image_notes',$filename);
                $result = $upload->save();
            }
@@ -163,8 +165,9 @@ public function content(Request $request){
            $extension = $file->getClientOriginalExtension();
            if($extension == "pdf")
            {
-               $file->move('uploads\content_uploads\video_notes',$filename);
-               $upload->video_notes =$filename;
+              // $file->move('uploads\content_uploads\video_notes',$filename);
+              $file->storeAs("public/",$filename);
+              $upload->video_notes =$filename;
               // $upload->video_notes = url('uploads\content_uploads\video_notes',$filename);
                $result = $upload->save();
            }
@@ -182,8 +185,9 @@ public function content(Request $request){
            $extension = $file->getClientOriginalExtension();
            if($extension == "mp4")
            {
-               $file->move('uploads\content_uploads\video_url',$filename);
-               $upload->video_url = $filename;
+              // $file->move('uploads\content_uploads\video_url',$filename);
+              $file->storeAs("public/",$filename);
+              $upload->video_url = $filename;
               // $upload->video_url = url('uploads\content_uploads\video_url',$filename);
                $result = $upload->save();
            }
