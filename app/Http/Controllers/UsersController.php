@@ -34,7 +34,7 @@ class UsersController extends Controller
               }
               $token = $user->createToken('eduapp token')->accessToken;
               $success['token'] = $token;
-              $success['user'] = $user;
+              //$success['user'] = $user;
               return response()->json(["status"=>"success","code"=> 200, "message"=>'User logged in successfully ','data'=>$success],200);
             }
             else{
@@ -72,7 +72,6 @@ class UsersController extends Controller
         $token = $user->createToken('eduapp token')->accessToken;
         $success['token'] = $token;
         $success['user'] = $user;
-        $success['default_password'] = 'password';
         return response()->json(["status"=>"success","code"=> 200, "message"=>'User registered successfully ','data'=>$success],200);
    }
 
