@@ -145,7 +145,8 @@ public function content(Request $request){
            if( $extension == "jpg" || $extension == "jpeg" || $extension == "png")
            {
                $file->move('uploads\content_uploads\image_notes',$filename);
-               $upload->image_notes = url('uploads\content_uploads\image_notes',$filename);
+               $upload->image_notes = $filename;
+              // $upload->image_notes = url('uploads\content_uploads\image_notes',$filename);
                $result = $upload->save();
            }
            else
@@ -163,7 +164,8 @@ public function content(Request $request){
            if($extension == "pdf")
            {
                $file->move('uploads\content_uploads\video_notes',$filename);
-               $upload->video_notes = url('uploads\content_uploads\video_notes',$filename);
+               $upload->video_notes =$filename;
+              // $upload->video_notes = url('uploads\content_uploads\video_notes',$filename);
                $result = $upload->save();
            }
            else
@@ -181,7 +183,8 @@ public function content(Request $request){
            if($extension == "mp4")
            {
                $file->move('uploads\content_uploads\video_url',$filename);
-               $upload->video_url = url('uploads\content_uploads\video_url',$filename);
+               $upload->video_url = $filename;
+              // $upload->video_url = url('uploads\content_uploads\video_url',$filename);
                $result = $upload->save();
            }
            else
