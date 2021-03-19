@@ -137,7 +137,7 @@ public function profileupdate(Request $request){
 public function content(Request $request){
        $upload = new Content();
 
-       if ($request->hasfile('image_notes'))
+       if ($request->hasfile('image_notes'))      
        {
            $file = $request->file('image_notes');
            $filename = $file->getClientOriginalName();
