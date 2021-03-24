@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\TeachrController;
+use App\Http\Controllers\StudentController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -25,16 +26,22 @@ Route::post('register', 'App\Http\Controllers\UsersController@register');
 Route::post('logout', 'App\Http\Controllers\UsersController@logout')->middleware('auth:api');
 
 //* Teacher Controller Route
-Route::get('getprofile','App\Http\Controllers\TeachrController@getprofile');
-Route::post('profileupdate','App\Http\Controllers\TeachrController@profileupdate');
-Route::post('content','App\Http\Controllers\TeachrController@content');
+Route::group(['middleware' => 'auth:api'], function()
+{
+    Route::get('getprofile','App\Http\Controllers\TeachrController@getprofile');
+    Route::post('profileupdate','App\Http\Controllers\TeachrController@profileupdate');
+    Route::post('contentupload','App\Http\Controllers\TeachrController@contentupload');
+});
 
 //* Student Controller Route
-Route::get('class','App\Http\Controllers\StudentController@class');
-Route::get('subject','App\Http\Controllers\StudentController@subject');
-Route::get('chapter','App\Http\Controllers\StudentController@chapter');
-Route::get('topic','App\Http\Controllers\StudentController@topic');
-Route::get('video','App\Http\Controllers\StudentController@video');
+Route::group(['middleware' => 'auth:api'], function()
+{
+    Route::post('studentprofileupdate','App\Http\Controllers\studentController@studentprofileupdate');
+    Route::get('subject','App\Http\Controllers\StudentController@subject');
+    Route::post('chapter','App\Http\Controllers\StudentController@chapter');
+    Route::post('topic','App\Http\Controllers\StudentController@topic');
+    Route::post('contentview','App\Http\Controllers\StudentController@contentview');
+});
 
 
 
@@ -46,4 +53,5 @@ Route::get('video','App\Http\Controllers\StudentController@video');
 
 
 
-//Route::post('subassign','App\Http\Controllers\TeacherController@subassign');
+
+

@@ -2,45 +2,81 @@
 
 namespace App\Http\Controllers;
 use App\Models\Video;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\Classes;
 use App\Models\ClassSubject;
 use App\Models\subject;
 use App\Models\Chapter;
 use App\Models\Topic;
-
+use App\Models\Student;
+use App\Models\Content;
 
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
-    public function class()
+    public function studentprofileupdate(Request $request){
+        $id = Auth::id();
+        $update = Student::where('user_id','=',$id)->first('id');
+        $id = $update;
+        $update = Student::find($id)->first();
+        $update->class_id = $request->class_id;
+         $update->mobile_no =  $request->mobile_no;
+         $update->gender_id	 =  $request->gender_id;
+        $update->date_of_birth =  $request->date_of_birth;
+        $result = $update->save();
+    if($result)
     {
-     $class = Classes::all('id','class');
-     return ["code"=>200," class"=>$class,"status"=>"success"]; 
+        return ["message" => "Profile updated ","code"=>200,"data"=>$update,"status"=>"success"];
+    }
+    else
+    {
+        return ["message" => "Profile not updated","code"=>404,"status"=>"failure"];
+    }
     }
 
     public function subject()
     {
-     $subject_id = ClassSubject::all('id','class_id','subject_id');
-     return ["code"=>200," subject"=>$subject_id,"status"=>"success"];
+
+        if (Auth::user())
+        {
+            $id = Auth::id();
+            $class_id = DB::table('students')->where('user_id',$id)->value('class_id');
+            $subject_id = DB::table('class_subjects')->where('class_id',$class_id)->pluck('subject_id');
+            $subject_name = DB::table('subjects')->whereIn('id',$subject_id)->pluck('subject_name');
+            return ["code"=>200," subject"=>$subject_name,"status"=>"success"];
+        }
     }
 
-    public function chapter()
+    public function chapter(Request $request)
     {
-     $chapter_no = Chapter::all('id','subject_id','chapter_no');
-     return ["code"=>200," chapter no"=>$chapter_no,"status"=>"success"];
+        if (Auth::user())
+        {
+            $chapter_no = DB::table('chapters')->where('class_subject_id',$request->subject_id)->pluck('chapter_no');
+            return ["code"=>200," chapter_no"=>$chapter_no,"status"=>"success"];
+        }
     }
 
-    public function topic()
+    public function topic(Request $request)
     {
-     $topic_name = Topic::all('id','chapter_id','topic_name');
-     return ["code"=>200," topic name"=>$topic_name,"status"=>"success"];
-    }
+        if (Auth::user())
+        {
 
-    public function video()
+
+            $topic_name = DB::table('topics')->where('chapter_id',$request->chapter_id)->pluck('topic_name');
+            return ["code"=>200,"topic_name"=>$topic_name,"status"=>"success"];
+
+         }
+         }
+
+    public function contentview(Request $request)
     {
-
-     $video = Video::all('id','topic_id','video_url');
-     return ["code"=>200,"video"=>$video,"status"=>"success"];
+        if (Auth::user())
+    {
+        $content = DB::table('contents')->select('image_notes','video_notes','video_url')->where('topic_id',$request->topic_id)->get();
+        return ["code"=>200,"content"=>$content,"status"=>"success"];
     }
+}
 }

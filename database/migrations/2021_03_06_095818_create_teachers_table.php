@@ -17,6 +17,8 @@ class CreateTeachersTable extends Migration
             $table->id();
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->bigInteger('type_id')->unsigned();
+            $table->foreign('type_id')->references('id')->on('types')->onDelete('cascade');
             $table->string('image');
             $table->string('mobile_no');
             $table->integer('gender_id');
@@ -28,6 +30,7 @@ class CreateTeachersTable extends Migration
             $table->string('marital_status');
             $table->string('identity_doc');
             $table->string('qualification_doc');
+
             $table->timestamps();
         });
     }

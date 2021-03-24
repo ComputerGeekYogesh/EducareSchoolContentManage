@@ -16,5 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
+// Route::get('array','App\Http\Controllers\UsersController@array');
+// Route::get('collection','App\Http\Controllers\UsersController@collection');
 

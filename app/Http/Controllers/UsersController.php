@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\RoleUser;
 use App\Models\User_role;
+use App\Models\Teacher;
+use App\Models\Student;
 use App\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -69,6 +71,16 @@ class UsersController extends Controller
         $user_role->role_id = $request->role_id;
         $user_role->save();
 
+        if ($request->role_id == 2)
+        $user_role = new Teacher();
+        $user_role->user_id = $user->id;
+        $user_role->save();
+
+        if ($request->role_id == 1)
+        $user_role = new Student();
+        $user_role->user_id = $user->id;
+        $user_role->save();
+
         $token = $user->createToken('eduapp token')->accessToken;
         $success['token'] = $token;
         $success['user'] = $user;
@@ -82,8 +94,18 @@ class UsersController extends Controller
       return response()->json(["status"=>"success","code"=> 200, "message"=>'You have been successfully logged out!'],200);
     }
 
+    // public function array(Request $request)
+    // {
+    //     $array = ['a','b'];
+    //     dd($array);
+    // }
 
+    // public function collection(Request $request)
+    // {
+    //     $collect = collect(['a','b']);
+    //     dd($collect);
 
+    // }
 
 }
 
