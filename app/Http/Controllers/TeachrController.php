@@ -42,7 +42,7 @@ public function profileupdate(Request $request){
             $update->image = $filename;
         //    $file->move ('uploads\teacher_pro_uploads\teacher_image',$filename);
         //    $update->image= url('uploads\teacher_pro_uploads\teacher_image', $filename);
-           $update->save();
+          // $update->save();
           }
           else
           {
@@ -54,50 +54,50 @@ public function profileupdate(Request $request){
       if ($request->has('mobile_no') && $request->mobile_no != null)
       {
        $update->mobile_no = $request->mobile_no;
-       $result = $update->save();
+       //$result = $update->save();
       }
 
       if ($request->has('gender_id') && $request->gender_id != null)
       {
        $update->gender_id = $request->gender_id;
-       $result = $update->save();
+       //$result = $update->save();
       }
 
       if($request->has('date_of_birth') && $request->date_of_birth != null)
       {
        $update->date_of_birth = $request->date_of_birth;
-       $result = $update->save();
+      // $result = $update->save();
       }
 
       if ($request->has('current_address') && $request->current_address != null)
       {
        $update->current_address = $request->current_address;
-       $result = $update->save();
+      // $result = $update->save();
       }
 
       if ($request->has('permanent_address') && $request->permanent_address != null)
       {
        $update->permanent_address = $request->permanent_address;
-       $result = $update->save();
+      // $result = $update->save();
 
       }
 
       if ($request->has('father_name') && $request->father_name != null)
       {
        $update->father_name = $request->father_name;
-       $result = $update->save();
+      // $result = $update->save();
       }
 
       if ($request->has('mother_name') && $request->mother_name != null)
       {
        $update->mother_name = $request->mother_name;
-       $result = $update->save();
+      // $result = $update->save();
       }
 
       if ($request->has('marital_status') && $request->marital_status != null)
       {
        $update->marital_status = $request->marital_status;
-       $result = $update->save();
+      // $result = $update->save();
       }
 
       if ($request->hasfile('identity_doc') )
@@ -111,7 +111,7 @@ public function profileupdate(Request $request){
             $update->identity_doc = $filename;
         //    $file->move ('uploads\teacher_pro_uploads\teacher_docs',$filename);
         //   $update->identity_doc = url('uploads\teacher_pro_uploads\teacher_docs',$filename);
-          $result = $update->save();
+         // $result = $update->save();
           }
           else
           {
@@ -132,7 +132,7 @@ public function profileupdate(Request $request){
             $update->qualification_doc = $filename;
         //    $file->move ('uploads\teacher_pro_uploads\teacher_docs',$filename);
         //    $update->qualification_doc = url('uploads\teacher_pro_uploads\teacher_docs',$filename);
-           $result = $update->save();
+           //$result = $update->save();
           }
           else
           {
