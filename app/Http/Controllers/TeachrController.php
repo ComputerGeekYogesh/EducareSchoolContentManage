@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\teacher;
 use App\Models\Content;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Classes;
 use App\Models\ClassTeacher;
@@ -14,12 +16,21 @@ use Illuminate\Http\Request;
 class TeachrController extends Controller
 {
     public function getprofile(){
-        $getprofile = teacher::all();
-        return ["code"=>200,"data"=>$getprofile,"status"=>"success"];
+        $id = Auth::user();
+        return ["code"=>200,"data"=>$id,"status"=>"success"];
        }
 
 public function profileupdate(Request $request){
-       $update = teacher::find($request->id);
+        $id = Auth::id();
+        $update = teacher::where('user_id','=',$id)->first('id');
+        $id = $update;
+        $update = teacher::find($id)->first();
+
+       if ($request->has('type_id') && $request->type_id != null)
+       {
+        $update->type_id = $request->type_id;
+        $result = $update->save();
+       }
 
        if ($request->hasfile('image' ) && $request->image != null )
       {
@@ -28,8 +39,10 @@ public function profileupdate(Request $request){
           $extension = $file->getClientOriginalExtension();
           if($extension == "jpg" || $extension == "jpeg" || $extension == "png")
           {
-           $file->move ('uploads\teacher_pro_uploads\teacher_image',$filename);
-           $update->image= url('uploads\teacher_pro_uploads\teacher_image', $filename);
+            $file->storeAs("public/",$filename);
+            $update->image = $filename;
+        //    $file->move ('uploads\teacher_pro_uploads\teacher_image',$filename);
+        //    $update->image= url('uploads\teacher_pro_uploads\teacher_image', $filename);
            $result = $update->save();
           }
           else
@@ -95,8 +108,10 @@ public function profileupdate(Request $request){
           $extension = $file->getClientOriginalExtension();
           if($extension == "pdf")
           {
-           $file->move ('uploads\teacher_pro_uploads\teacher_docs',$filename);
-          $update->identity_doc = url('uploads\teacher_pro_uploads\teacher_docs',$filename);
+            $file->storeAs("public/",$filename);
+            $update->identity_doc = $filename;
+        //    $file->move ('uploads\teacher_pro_uploads\teacher_docs',$filename);
+        //   $update->identity_doc = url('uploads\teacher_pro_uploads\teacher_docs',$filename);
           $result = $update->save();
           }
           else
@@ -114,8 +129,10 @@ public function profileupdate(Request $request){
           $extension = $file->getClientOriginalExtension();
           if($extension == "pdf")
           {
-           $file->move ('uploads\teacher_pro_uploads\teacher_docs',$filename);
-           $update->qualification_doc = url('uploads\teacher_pro_uploads\teacher_docs',$filename);
+            $file->storeAs("public/",$filename);
+            $update->qualification_doc = $filename;
+        //    $file->move ('uploads\teacher_pro_uploads\teacher_docs',$filename);
+        //    $update->qualification_doc = url('uploads\teacher_pro_uploads\teacher_docs',$filename);
            $result = $update->save();
           }
           else
@@ -123,19 +140,23 @@ public function profileupdate(Request $request){
                return response()->json(["status"=>"failure","code"=> 422,"message"=> "qualification doc must be in .pdf format"]);
           }
       }
-
+     $result = $update->save();
        if($result)
        {
            return ["message" => "Profile updated ","code"=>200,"data"=>$update,"status"=>"success"];
        }
-       else{
+       else
+       {
            return ["message" => "Profile not updated","code"=>404,"status"=>"failure"];
        }
 
 }
 
-public function content(Request $request){
+public function contentupload(Request $request){
        $upload = new Content();
+       $upload->topic_id = $request->topic_id;
+       $upload->teacher_id = $request->teacher_id;
+       $upload->type_id = $request->type_id;
 
        if ($request->hasfile('image_notes'))
        {
@@ -197,8 +218,7 @@ public function content(Request $request){
            }
 
        }
-       $upload->topic_id = $request->topic_id;
-       $upload->teacher_id = $request->teacher_id;
+
        $result = $upload->save();
 
        if($result)
@@ -210,4 +230,5 @@ public function content(Request $request){
        }
 
 }
+
 }

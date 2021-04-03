@@ -18,7 +18,7 @@ class CreateTopicsTable extends Migration
             $table->bigInteger('chapter_id')->unsigned();
             $table->foreign('chapter_id')->references('id')->on('chapters')->onDelete('cascade');
             $table->string('topic_name');
-
+            $table->integer('status');
             $table->timestamps();
         });
     }
