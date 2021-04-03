@@ -22,14 +22,13 @@ class TeachrController extends Controller
 
 public function profileupdate(Request $request){
         $id = Auth::id();
-        // $update = teacher::where('user_id','=',$id)->first('id');
-        // $id = $update;
-        $update = teacher::find($id);
+        $update = teacher::where('user_id','=',$id)->first();
+        //$update = teacher::find($id);
 
        if ($request->has('type_id') && $request->type_id != null)
        {
         $update->type_id = $request->type_id;
-        $result = $update->save();
+        $update->save();
        }
 
        if ($request->hasfile('image' ) && $request->image != null )
