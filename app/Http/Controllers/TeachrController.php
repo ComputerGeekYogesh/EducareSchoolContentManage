@@ -21,31 +21,10 @@ class TeachrController extends Controller
        }
 
 public function profileupdate(Request $request){
-        //$update = new teacher();
-    //     $id = Auth::user()->id;
-    //    return $id;
         $id = Auth::id();
         $update = teacher::where('user_id','=',$id)->first('id');
         $id = $update;
         $update = teacher::find($id)->first();
-        // $update->type_id = $request->type_id;
-        // $update->save();
-    //    if ($request->has('type_id') && $request->type_id != null)
-    //    {
-    //     $update->type_id = $request->type_id;
-    //      $update->update();
-    //    }
-          //find($user_id);
-       // return $update;
-    //    $user = Auth::user();
-    //    if ($user)
-    //    {
-    //     $userid = Auth::id();
-    //    $update->user_id = $userid;
-
-    //    if ($user_id == $update->user_id)
-    //     {
-        //
 
        if ($request->has('type_id') && $request->type_id != null)
        {

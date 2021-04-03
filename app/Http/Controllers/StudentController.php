@@ -44,8 +44,8 @@ class StudentController extends Controller
         {
             $id = Auth::id();
             $class_id = DB::table('students')->where('user_id',$id)->value('class_id');
-            $subject_id = DB::table('class_subjects')->where('class_id',$class_id)->pluck('subject_id');
-            $subject_name = DB::table('subjects')->whereIn('id',$subject_id)->pluck('subject_name');
+            $id = DB::table('subjects')->where('class_id',$class_id)->pluck('id');
+            $subject_name = DB::table('subjects')->whereIn('id',$id)->pluck('subject_name');
             return ["code"=>200," subject"=>$subject_name,"status"=>"success"];
         }
     }
@@ -54,7 +54,7 @@ class StudentController extends Controller
     {
         if (Auth::user())
         {
-            $chapter_no = DB::table('chapters')->where('class_subject_id',$request->subject_id)->pluck('chapter_no');
+            $chapter_no = DB::table('chapters')->where('subject_id',$request->subject_id)->pluck('chapter_no');
             return ["code"=>200," chapter_no"=>$chapter_no,"status"=>"success"];
         }
     }

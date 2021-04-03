@@ -64,22 +64,27 @@ class UsersController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
+        $user->role_id = $request->role_id;
         $user->save();
 
-        $user_role = new RoleUser ();
-        $user_role->user_id = $user->id;
-        $user_role->role_id = $request->role_id;
-        $user_role->save();
+        // $user_role = new RoleUser ();
+        // $user_role->user_id = $user->id;
+        // $user_role->role_id = $request->role_id;
+        // $user_role->save();
 
         if ($request->role_id == 2)
-        $user_role = new Teacher();
-        $user_role->user_id = $user->id;
-        $user_role->save();
+        {
+            $user_role = new Student();
+            $user_role->user_id = $user->id;
+            $user_role->save();
+        }
 
-        if ($request->role_id == 1)
-        $user_role = new Student();
-        $user_role->user_id = $user->id;
-        $user_role->save();
+        if ($request->role_id == 3)
+        {
+            $user_role = new Teacher();
+            $user_role->user_id = $user->id;
+            $user_role->save();
+        }
 
         $token = $user->createToken('eduapp token')->accessToken;
         $success['token'] = $token;
@@ -93,19 +98,6 @@ class UsersController extends Controller
       $token->delete();
       return response()->json(["status"=>"success","code"=> 200, "message"=>'You have been successfully logged out!'],200);
     }
-
-    // public function array(Request $request)
-    // {
-    //     $array = ['a','b'];
-    //     dd($array);
-    // }
-
-    // public function collection(Request $request)
-    // {
-    //     $collect = collect(['a','b']);
-    //     dd($collect);
-
-    // }
 
 }
 
