@@ -36,7 +36,7 @@ Route::group(['middleware' => 'auth:api'], function()
 //* Student Controller Route
 Route::group(['middleware' => 'auth:api'], function()
 {
-    Route::post('studentprofileupdate','App\Http\Controllers\studentController@studentprofileupdate');
+    Route::post('studentprofileupdate','App\Http\Controllers\StudentController@studentprofileupdate');
     Route::get('subject','App\Http\Controllers\StudentController@subject');
     Route::post('chapter','App\Http\Controllers\StudentController@chapter');
     Route::post('topic','App\Http\Controllers\StudentController@topic');
