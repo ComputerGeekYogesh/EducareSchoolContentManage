@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\RoleUser;
 use App\Models\User_role;
-use App\Models\Teacher;
+use App\Models\teacher;
 use App\Models\Student;
 use App\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Auth;
@@ -81,7 +81,7 @@ class UsersController extends Controller
 
         if ($request->role_id == 3)
         {
-            $user_role = new Teacher();
+            $user_role = new teacher();
             $user_role->user_id = $user->id;
             $user_role->save();
         }

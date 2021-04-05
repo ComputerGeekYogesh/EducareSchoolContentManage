@@ -23,13 +23,6 @@ class TeachrController extends Controller
 public function profileupdate(Request $request){
         $id = Auth::id();
         $update = teacher::where('user_id','=',$id)->first();
-        //$update = teacher::find($id);
-
-       if ($request->has('type_id') && $request->type_id != null)
-       {
-        $update->type_id = $request->type_id;
-        $update->save();
-       }
 
        if ($request->hasfile('image' ) && $request->image != null )
       {
@@ -54,13 +47,13 @@ public function profileupdate(Request $request){
       if ($request->has('mobile_no') && $request->mobile_no != null)
       {
        $update->mobile_no = $request->mobile_no;
-       //$result = $update->save();
+      // $result = $update->save();
       }
 
       if ($request->has('gender_id') && $request->gender_id != null)
       {
        $update->gender_id = $request->gender_id;
-       //$result = $update->save();
+      // $result = $update->save();
       }
 
       if($request->has('date_of_birth') && $request->date_of_birth != null)
@@ -139,6 +132,7 @@ public function profileupdate(Request $request){
                return response()->json(["status"=>"failure","code"=> 422,"message"=> "qualification doc must be in .pdf format"]);
           }
       }
+
      $result = $update->save();
        if($result)
        {
@@ -155,7 +149,6 @@ public function contentupload(Request $request){
        $upload = new Content();
        $upload->topic_id = $request->topic_id;
        $upload->teacher_id = $request->teacher_id;
-       $upload->type_id = $request->type_id;
 
        if ($request->hasfile('image_notes'))
        {
@@ -169,7 +162,7 @@ public function contentupload(Request $request){
                $upload->image_notes = $filename;
 
               // $upload->image_notes = url('uploads\content_uploads\image_notes',$filename);
-               $result = $upload->save();
+              // $result = $upload->save();
            }
            else
            {
@@ -189,7 +182,7 @@ public function contentupload(Request $request){
               $file->storeAs("public/",$filename);
               $upload->video_notes =$filename;
               // $upload->video_notes = url('uploads\content_uploads\video_notes',$filename);
-               $result = $upload->save();
+              // $result = $upload->save();
            }
            else
            {
@@ -209,7 +202,7 @@ public function contentupload(Request $request){
               $file->storeAs("public/",$filename);
               $upload->video_url = $filename;
               // $upload->video_url = url('uploads\content_uploads\video_url',$filename);
-               $result = $upload->save();
+               //$result = $upload->save();
            }
            else
            {

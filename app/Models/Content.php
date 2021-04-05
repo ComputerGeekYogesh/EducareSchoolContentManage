@@ -13,7 +13,6 @@ class Content extends Model
 
 'topic_id',
 'teacher_id',
-'type_id',
 'image_notes',
 'video_notes',
 'video_url',

@@ -19,8 +19,8 @@ class CreateContentsTable extends Migration
             $table->foreign('topic_id')->references('id')->on('topics')->onDelete('cascade');
             $table->bigInteger('teacher_id')->unsigned();
             $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
-            $table->bigInteger('type_id')->unsigned();
-            $table->foreign('type_id')->references('id')->on('types')->onDelete('cascade');
+            // $table->bigInteger('type_id')->unsigned();
+            // $table->foreign('type_id')->references('id')->on('types')->onDelete('cascade');
             $table->string('image_notes')->nullable();
             $table->string('video_notes')->nullable();
             $table->string('video_url');

@@ -19,9 +19,7 @@ class StudentController extends Controller
 {
     public function studentprofileupdate(Request $request){
         $id = Auth::id();
-        $update = Student::where('user_id','=',$id)->first('id');
-        $id = $update;
-        $update = Student::find($id)->first();
+        $update = Student::where('user_id','=',$id);
         $update->class_id = $request->class_id;
          $update->mobile_no =  $request->mobile_no;
          $update->gender_id	 =  $request->gender_id;
