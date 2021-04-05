@@ -16,8 +16,9 @@ use Illuminate\Http\Request;
 class TeachrController extends Controller
 {
     public function getprofile(){
-        $id = Auth::user();
-        return ["code"=>200,"data"=>$id,"status"=>"success"];
+        $id = Auth::id();
+        $getprofile = teacher::where('user_id','=',$id)->get();
+        return ["code"=>200,"data"=>$getprofile,"status"=>"success"];
        }
 
 public function profileupdate(Request $request){
