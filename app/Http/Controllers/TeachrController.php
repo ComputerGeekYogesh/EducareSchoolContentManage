@@ -35,11 +35,6 @@ public function profileupdate(Request $request){
          $update->last_name = $request->last_name;
         }
 
-        if ($request->has('email') && $request->email != null)
-        {
-         $update->email = $request->email;
-        }
-
        if ($request->hasfile('image' ) && $request->image != null )
       {
           $file = $request->file('image');

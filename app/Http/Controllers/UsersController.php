@@ -61,7 +61,6 @@ class UsersController extends Controller
             return response()->json(["status"=>"failure","code"=> 201, "message"=>'Validation errors ','errors'=>$validator->errors()->all()],201);
         }
         $user = new User();
-        $user->name = $request->name;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->role_id = $request->role_id;
@@ -83,7 +82,6 @@ class UsersController extends Controller
         {
             $user_role = new teacher();
             $user_role->user_id = $user->id;
-            $user_role->first_name = $user->name;
             $user_role->email = $user->email;
             $user_role->save();
         }
