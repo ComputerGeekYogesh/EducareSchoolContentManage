@@ -25,6 +25,21 @@ public function profileupdate(Request $request){
         $id = Auth::id();
         $update = teacher::where('user_id','=',$id)->first();
 
+        if ($request->has('first_name') && $request->first_name != null)
+        {
+         $update->first_name = $request->first_name;
+        }
+
+        if ($request->has('last_name') && $request->last_name != null)
+        {
+         $update->last_name = $request->last_name;
+        }
+
+        if ($request->has('email') && $request->email != null)
+        {
+         $update->email = $request->email;
+        }
+
        if ($request->hasfile('image' ) && $request->image != null )
       {
           $file = $request->file('image');

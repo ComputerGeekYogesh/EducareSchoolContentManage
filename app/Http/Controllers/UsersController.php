@@ -83,6 +83,8 @@ class UsersController extends Controller
         {
             $user_role = new teacher();
             $user_role->user_id = $user->id;
+            $user_role->first_name = $user->name;
+            $user_role->email = $user->email;
             $user_role->save();
         }
 
