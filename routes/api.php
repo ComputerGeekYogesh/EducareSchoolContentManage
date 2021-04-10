@@ -21,11 +21,18 @@ use App\Http\Controllers\StudentController;
 // });
 
  //* User Controller Route
+
 Route::post('login', 'App\Http\Controllers\UsersController@login');
 Route::post('register', 'App\Http\Controllers\UsersController@register');
-Route::post('logout', 'App\Http\Controllers\UsersController@logout')->middleware('auth:api');
+
+Route::group(['middleware' => 'auth:api'], function()
+{
+Route::post('logout', 'App\Http\Controllers\UsersController@logout');
+Route::post('changepassword','App\Http\Controllers\UsersController@changepassword');
+});
 
 //* Teacher Controller Route
+
 Route::group(['middleware' => 'auth:api'], function()
 {
     Route::get('getprofile','App\Http\Controllers\TeachrController@getprofile');
@@ -34,6 +41,7 @@ Route::group(['middleware' => 'auth:api'], function()
 });
 
 //* Student Controller Route
+
 Route::group(['middleware' => 'auth:api'], function()
 {
     Route::post('studentprofileupdate','App\Http\Controllers\StudentController@studentprofileupdate');
