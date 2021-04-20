@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\RoleUser;
 use App\Models\User_role;
 use App\Models\teacher;
@@ -10,6 +11,9 @@ use App\Models\Student;
 use App\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Mail\Events\MessageSending;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -28,6 +32,13 @@ class UsersController extends Controller
         if ($validator->fails()) {
             return response()->json(["status" => "failure", "code" => 422, "message" => 'Validation errors ', 'errors' => $validator->errors()->all()], 422);
         }
+        $email_verified_at = User::where('email', '=', $request->email)->pluck('email_verified_at');
+
+       if (is_null($email_verified_at))
+         {
+            return response()->json(["status" => "failure", "code" => 401, "message" => 'Must verify Email before login'], 401);
+        }
+
         $user = User::where('email', '=', $request->email)->first();
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
@@ -45,6 +56,7 @@ class UsersController extends Controller
         } else {
             return response()->json(["status" => "failure", "code" => 401, "message" => 'User not found '], 401);
         }
+
     }
 
     public function register(Request $request)
@@ -62,11 +74,7 @@ class UsersController extends Controller
         $user->password = bcrypt($request->password);
         $user->role_id = $request->role_id;
         $user->save();
-
-        // $user_role = new RoleUser ();
-        // $user_role->user_id = $user->id;
-        // $user_role->role_id = $request->role_id;
-        // $user_role->save();
+       // User::create($request->getAttributes())->sendEmailVerificationNotification();
 
         if ($request->role_id == 2) {
             $user_role = new Student();
@@ -85,6 +93,7 @@ class UsersController extends Controller
         $success['token'] = $token;
         $success['user'] = $user;
         return response()->json(["status" => "success", "code" => 200, "message" => 'User registered successfully ', 'data' => $success], 200);
+
     }
 
     public function logout(Request $request)
@@ -127,4 +136,8 @@ class UsersController extends Controller
         }
         return response()->json($arr);
     }
+
+
+
+
 }

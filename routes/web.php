@@ -10,21 +10,9 @@ use App\Http\Controllers\TeacherPanel\ChapterController;
 use App\Http\Controllers\TeacherPanel\TopicController;
 
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 Route::get('', function () {
     return view('login');
 });
-
 
 
 Auth::routes(); //*Auth::routes() is a helper class that helps you generate all the routes required for user authentication.
@@ -98,6 +86,6 @@ Route::group (['middleware' => ['auth','checkrole']], function (){  //*For Teach
 
 });
 
-Route::get('noaccess', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('noaccess', [App\Http\Controllers\HomeController::class, 'index']);
 
 

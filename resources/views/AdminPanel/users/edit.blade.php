@@ -36,11 +36,6 @@
                     {{csrf_field()}}
                     @method('PUT')
                     <div class="row">
-                        <div class = "col-md-6">
-                     <div class = "form-group">
-                        <label for=""> Name</label>
-                         <input type="text" name="name" class="form-control" value = "{{$user->name}}">
-                     </div>   </div>
                      <div class = "col-md-6">
                      <div class = "form-group">
                         <label for=""> Email</label>
@@ -62,6 +57,7 @@
                         <div classs="form-group">
                             <label for=""> Deactivate</label>
                             <select name="deactivate" class="form-control">
+                                <option value = ""> {{$user->deactivate}} </option>
                                 <option value = "1"> Yes</option>
                                 <option value = "0"> No</option>
 

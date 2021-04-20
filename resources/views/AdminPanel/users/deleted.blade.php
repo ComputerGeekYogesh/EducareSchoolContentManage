@@ -26,7 +26,6 @@
             <table class="table table-striped table-bordered">
                 <thead>
                     <th> ID</th>
-                    <th> Name</th>
                     <th> Email</th>
                     <th> Role ID</th>
                     <th> Deactivate</th>
@@ -37,7 +36,6 @@
                     @foreach ($user as $item)
                     <tr>
                         <td>{{ $item->id}}</td>
-                    <td>{{ $item->name}}</td>
                     <td>{{ $item->email}}</td>
                     <td> {{$item->roles->role_name}} </td>
                     <td>

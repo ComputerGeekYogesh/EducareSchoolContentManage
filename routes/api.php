@@ -1,24 +1,16 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\TeachrController;
 use App\Http\Controllers\StudentController;
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+use App\Http\Controllers\ResetPasswordAPIController;
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
 
  //* User Controller Route
 
@@ -30,6 +22,21 @@ Route::group(['middleware' => 'auth:api'], function()
 Route::post('logout', 'App\Http\Controllers\UsersController@logout');
 Route::post('changepassword','App\Http\Controllers\UsersController@changepassword');
 });
+
+Route::post('forgot','App\Http\Controllers\ResetPasswordAPIController@forgot');
+Route::post('reset', 'App\Http\Controllers\ResetPasswordAPIController@reset');
+Route::get('resend', 'App\Http\Controllers\Auth\VerificationController@resend')->name('verification.resend');
+Route::get('email/verify/{id}/{hash}', 'App\Http\Controllers\Auth\VerificationController@verify')->name('verification.verify');
+
+Route::get('verified-only', function (Request $request) {
+   dd('This email is verified', $request->user()->name);
+})->middleware('auth:api','verified');
+
+Route::get('/email/verify', function (Request $request) {
+    dd('This email is not verified', $request->user()->name);
+})->middleware('auth:api')->name('verification.notice');
+
+
 
 //* Teacher Controller Route
 
