@@ -153,7 +153,7 @@ class TeachrController extends Controller
 
     public function getclass()
     {
-        $getclass = Classes::pluck('class_name');
+        $getclass = Classes::get();
         return ["code" => 200, "class_name" => $getclass, "status" => "success"];
     }
 
@@ -166,19 +166,19 @@ class TeachrController extends Controller
         $classteacher->class_id = $request->class_id;
         $classteacher->save();
         $id = Subject::where('class_id',$request->class_id)->pluck('id');
-        $subject_name = Subject::whereIn('id',$id)->pluck('subject_name');
+        $subject_name = Subject::whereIn('id',$id)->get();
         return ["code" => 200, "subject"=>$subject_name,"status" => "success"];
     }
 
     public function selectchapter(Request $request)
     {
-        $chapter_no =  Chapter::where('subject_id',$request->subject_id)->pluck('chapter_no');
+        $chapter_no =  Chapter::where('subject_id',$request->subject_id)->get();
         return ["code"=>200," chapter_no"=>$chapter_no,"status"=>"success"];
     }
 
     public function selecttopic(Request $request)
     {
-        $topic_name = Topic::where('chapter_id',$request->chapter_id)->pluck('topic_name');
+        $topic_name = Topic::where('chapter_id',$request->chapter_id)->get();
         return ["code"=>200,"topic_name"=>$topic_name,"status"=>"success"];
     }
 
