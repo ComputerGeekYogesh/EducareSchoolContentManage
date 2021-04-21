@@ -10,7 +10,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Classes;
-use App\Models\subject;
+use App\Models\Subject;
 use App\Models\ClassTeacher;
 use App\Models\ClassSubject;
 use Illuminate\Support\Facades\DB;
@@ -165,8 +165,8 @@ class TeachrController extends Controller
         $classteacher->teacher_id = $teacher_id;
         $classteacher->class_id = $request->class_id;
         $classteacher->save();
-        $id = subject::where('class_id',$request->class_id)->pluck('id');
-        $subject_name = subject::whereIn('id',$id)->pluck('subject_name');
+        $id = Subject::where('class_id',$request->class_id)->pluck('id');
+        $subject_name = Subject::whereIn('id',$id)->pluck('subject_name');
         return ["code" => 200, "subject"=>$subject_name,"status" => "success"];
     }
 
