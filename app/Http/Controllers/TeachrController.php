@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\teacher;
 use App\Models\Content;
+use App\Models\Chapter;
+use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Classes;
+use App\Models\subject;
 use App\Models\ClassTeacher;
 use App\Models\ClassSubject;
 use Illuminate\Support\Facades\DB;
@@ -146,6 +149,37 @@ class TeachrController extends Controller
         } else {
             return ["message" => "Profile not updated", "code" => 404, "status" => "failure"];
         }
+    }
+
+    public function getclass()
+    {
+        $getclass = Classes::pluck('class_name');
+        return ["code" => 200, "class_name" => $getclass, "status" => "success"];
+    }
+
+    public function selectsubject(Request $request)
+    {
+        $id = Auth::id();
+        $teacher_id =  teacher::where('user_id', '=', $id)->pluck('id')->first();
+        $classteacher = new ClassTeacher();
+        $classteacher->teacher_id = $teacher_id;
+        $classteacher->class_id = $request->class_id;
+        $classteacher->save();
+        $id = subject::where('class_id',$request->class_id)->pluck('id');
+        $subject_name = subject::whereIn('id',$id)->pluck('subject_name');
+        return ["code" => 200, "subject"=>$subject_name,"status" => "success"];
+    }
+
+    public function selectchapter(Request $request)
+    {
+        $chapter_no =  Chapter::where('subject_id',$request->subject_id)->pluck('chapter_no');
+        return ["code"=>200," chapter_no"=>$chapter_no,"status"=>"success"];
+    }
+
+    public function selecttopic(Request $request)
+    {
+        $topic_name = Topic::where('chapter_id',$request->chapter_id)->pluck('topic_name');
+        return ["code"=>200,"topic_name"=>$topic_name,"status"=>"success"];
     }
 
     public function contentupload(Request $request)

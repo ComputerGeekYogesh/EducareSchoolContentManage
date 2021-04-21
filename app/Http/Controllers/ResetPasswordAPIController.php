@@ -35,7 +35,7 @@ class ResetPasswordAPIController extends Controller
 
     public function reset() {
         $credentials = request()->validate([
-             'email' => 'required|email',
+            'email' => 'required|email',
             'token' => 'required|string',
             'password' => 'required|string'
         ]);

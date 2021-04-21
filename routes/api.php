@@ -44,6 +44,10 @@ Route::group(['middleware' => 'auth:api'], function()
 {
     Route::get('getprofile','App\Http\Controllers\TeachrController@getprofile');
     Route::post('profileupdate','App\Http\Controllers\TeachrController@profileupdate');
+    Route::get('getclass','App\Http\Controllers\TeachrController@getclass');
+    Route::post('selectsubject','App\Http\Controllers\TeachrController@selectsubject');
+    Route::post('selectchapter','App\Http\Controllers\TeachrController@selectchapter');
+    Route::post('selecttopic','App\Http\Controllers\TeachrController@selecttopic');
     Route::post('contentupload','App\Http\Controllers\TeachrController@contentupload');
 });
 
