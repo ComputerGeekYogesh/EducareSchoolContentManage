@@ -184,11 +184,7 @@ class TeachrController extends Controller
 
     public function contentupload(Request $request)
     {
-        $id = Auth::id();
-        $teacher_id =  teacher::where('user_id', '=', $id)->pluck('id')->first();
-        $upload = new Content();
-        $upload->topic_id = $request->topic_id;
-        $upload->teacher_id = $teacher_id;
+        
 
         if ($request->hasfile('image_notes')) {
             $file = $request->file('image_notes');
