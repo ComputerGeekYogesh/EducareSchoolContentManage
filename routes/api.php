@@ -23,18 +23,23 @@ Route::post('logout', 'App\Http\Controllers\UsersController@logout');
 Route::post('changepassword','App\Http\Controllers\UsersController@changepassword');
 });
 
-Route::post('forgot','App\Http\Controllers\ResetPasswordAPIController@forgot');
-Route::post('reset', 'App\Http\Controllers\ResetPasswordAPIController@reset');
-Route::get('resend', 'App\Http\Controllers\Auth\VerificationController@resend')->name('verification.resend');
-Route::get('email/verify/{id}/{hash}', 'App\Http\Controllers\Auth\VerificationController@verify')->name('verification.verify');
+Route::post('sendverificationmail','App\Http\Controllers\VerificationController@sendverificationmail');
+Route::post('verifyverificationcode','App\Http\Controllers\VerificationController@verifyverificationcode');
+Route::post('new_password','App\Http\Controllers\VerificationController@newpassword');
 
-Route::get('verified-only', function (Request $request) {
-   dd('This email is verified', $request->user()->name);
-})->middleware('auth:api','verified');
 
-Route::get('/email/verify', function (Request $request) {
-    dd('This email is not verified', $request->user()->name);
-})->middleware('auth:api')->name('verification.notice');
+// Route::post('forgot','App\Http\Controllers\ResetPasswordAPIController@forgot');
+// Route::post('reset', 'App\Http\Controllers\ResetPasswordAPIController@reset');
+// Route::get('resend', 'App\Http\Controllers\Auth\VerificationController@resend')->name('verification.resend');
+// Route::get('email/verify/{id}/{hash}', 'App\Http\Controllers\Auth\VerificationController@verify')->name('verification.verify');
+
+// Route::get('verified-only', function (Request $request) {
+//    dd('This email is verified', $request->user()->name);
+// })->middleware('auth:api','verified');
+
+// Route::get('/email/verify', function (Request $request) {
+//     dd('This email is not verified', $request->user()->name);
+// })->middleware('auth:api')->name('verification.notice');
 
 
 
