@@ -42,7 +42,7 @@ class StudentController extends Controller
             $id = DB::table('subjects')->where('class_id',$class_id)->pluck('id');
             $subject_name = DB::table('subjects')->whereIn('id',$id)->pluck('subject_name');
             return ["code"=>200," subject"=>$subject_name,"status"=>"success"];
-        
+
     }
 
     public function chapter(Request $request)
@@ -64,7 +64,7 @@ class StudentController extends Controller
     public function contentview(Request $request)
     {
 
-        $content = DB::table('contents')->select('image_notes','video_notes','video_url')->where('topic_id',$request->topic_id)->get();
+        $content = DB::table('contents')->select('image_notes','video_notes','video_url','name')->where('topic_id',$request->topic_id)->get();
         return ["code"=>200,"content"=>$content,"status"=>"success"];
 
 }

@@ -192,20 +192,23 @@ class TeachrController extends Controller
 
         if ($request->hasfile('image_notes')) {
             $file = $request->file('image_notes');
-           // $filename = $file->getClientOriginalName();
+            $filenamewithextn = $file->getClientOriginalName();
             $extension = $file->getClientOriginalExtension();
             if ($extension == "jpg" || $extension == "jpeg" || $extension == "png") {
                 $image = time() . '.' . $extension;
                 $request->image_notes->move(public_path('content/image_notes'), $image);
                 $path = url('content/image_notes', $image);
                 $upload->image_notes = $path;
+                $filename = pathinfo($filenamewithextn, PATHINFO_FILENAME); //* pathinfo to get filename without extn
+                $upload->name = $filename;
                 //$file->move('uploads\content_uploads\image_notes',$filename);
                 //    $file->storeAs("public/",$filename);
                 //    $upload->image_notes = $filename;
 
                 // $upload->image_notes = url('uploads\content_uploads\image_notes',$filename);
                 // $result = $upload->save();
-            } else {
+            }
+            else {
                 return response()->json(["status" => "failure", "code" => 422, "message" => "image notes must be in .jpg, .jpeg, .png format"]);
             }
         }

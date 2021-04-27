@@ -24,6 +24,7 @@ class CreateContentsTable extends Migration
             $table->string('image_notes')->nullable();
             $table->string('video_notes')->nullable();
             $table->string('video_url');
+            $table->string('name')->nullable();
             $table->timestamps();
         });
     }
