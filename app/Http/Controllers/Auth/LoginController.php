@@ -35,21 +35,21 @@ class LoginController extends Controller
 
 
 
-    public function redirectTo()
+      public function authenticated()
     {
         if (Auth::user()->role_id == 1)// for Admin login
         {
-          return '/adminpanel';
+          return redirect('adminpanel');
         }
 
-        if (Auth::user()->role_id == 2)// for student login
+        elseif (Auth::user()->role_id == 2)// for student login
         {
-          return '/studentpanel';
+          return redirect('studentpanel');
         }
 
-        if (Auth::user()->role_id == 3)// for Teacher login
+        elseif (Auth::user()->role_id == 3)// for Teacher login
         {
-          return '/teacherpanel';
+          return redirect('teacherpanel');
         }
     }
 

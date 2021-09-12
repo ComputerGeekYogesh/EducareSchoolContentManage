@@ -23,10 +23,10 @@ class CheckRole
         return $next ($request);
        }
 
-        if (Auth::user()->role_id == 2  && Auth::user()->deactivate == 0)     //* Student check
-        {
-            return $next ($request);
-        }
+       if (Auth::user()->role_id == 2  && Auth::user()->deactivate == 0)     //* Student check
+       {
+           return $next ($request);
+       }
 
        if (Auth::user()->role_id == 3  && Auth::user()->deactivate == 0)    //* Teacher check
        {

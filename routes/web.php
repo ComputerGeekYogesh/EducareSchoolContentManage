@@ -17,7 +17,7 @@ Route::get('', function () {
 
 Auth::routes(); //*Auth::routes() is a helper class that helps you generate all the routes required for user authentication.
 
-Route::group (['middleware' => ['auth','checkrole']], function (){  //*For Admin
+Route::group (['middleware' => ['auth','isAdmin']], function (){  //*For Admin
     Route::get('adminpanel', function () {
         return view('Dashboards.AdminPanel');
     });
@@ -30,12 +30,12 @@ Route::group (['middleware' => ['auth','checkrole']], function (){  //*For Admin
     Route::get('user-permanentdelete/{id}','App\Http\Controllers\AdminPanel\RegisteredController@permanentdelete');
 });
 
-Route::group (['middleware' => ['auth','checkrole']], function (){  //*For Student
+Route::group (['middleware' => ['auth','isStudent']], function (){  //*For Student
         Route::get('studentpanel', function () {
             return view('Dashboards.StudentPanel'); });
         });
 
-Route::group (['middleware' => ['auth','checkrole']], function (){  //*For Teacher
+Route::group (['middleware' => ['auth','isTeacher']], function (){  //*For Teacher
     Route::get('teacherpanel', function () {
         return view('Dashboards.TeacherPanel');  });
 
